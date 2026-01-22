@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Data files (large datasets should not be in git)
+data/raw/
+data/logs/*.log
+
+# Keep directory structure
+!data/raw/.gitkeep
+
+!data/logs/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks (in case you add analysis notebooks later)
+.ipynb_checkpoints/
+*.ipynb
+
+# Model checkpoints (for when you train HGT models)
+checkpoints/
+models/
+*.pth
+*.pt
+*.ckpt
+
+# Specific large files
+drugbank.xml
