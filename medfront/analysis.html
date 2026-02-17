@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADR-Predict — AI Drug Safety Platform</title>
+    <meta name="description"
+        content="AI-driven adverse drug reaction prediction from molecular structure. Clinical-grade SMILES analysis for pharmaceutical research." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="analysis.css" />
+</head>
+
+<body>
+
+    <!-- ============ TOP NAV ============ -->
+    <nav class="topnav" id="topnav">
+        <div class="topnav__left">
+            <a href="index.html" class="topnav__brand">
+                <div class="topnav__logo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <div class="topnav__brand-text">
+                    <span class="topnav__title">ADR-Predict</span>
+                    <span class="topnav__subtitle">AI Drug Safety Platform</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="topnav__center">
+            <button class="topnav__icon-btn active" data-tooltip="Dashboard" id="nav-dashboard">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                </svg>
+            </button>
+            <button class="topnav__icon-btn" data-tooltip="Molecule" id="nav-molecule">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3" />
+                    <circle cx="19" cy="5" r="2" />
+                    <circle cx="5" cy="5" r="2" />
+                    <circle cx="5" cy="19" r="2" />
+                    <circle cx="19" cy="19" r="2" />
+                    <line x1="14" y1="10" x2="17.5" y2="6.5" />
+                    <line x1="10" y1="10" x2="6.5" y2="6.5" />
+                    <line x1="10" y1="14" x2="6.5" y2="17.5" />
+                    <line x1="14" y1="14" x2="17.5" y2="17.5" />
+                </svg>
+            </button>
+            <button class="topnav__icon-btn" data-tooltip="Predictions" id="nav-predictions">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+            </button>
+            <button class="topnav__icon-btn" data-tooltip="Reports" id="nav-reports">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+            </button>
+            <button class="topnav__icon-btn" data-tooltip="Settings" id="nav-settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="topnav__right">
+            <div class="topnav__user">
+                <div class="topnav__avatar">R</div>
+                <div class="topnav__user-info">
+                    <span class="topnav__username">Researcher</span>
+                    <span class="topnav__email">user@lab.org</span>
+                </div>
+                <svg class="topnav__dropdown" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============ MAIN LAYOUT ============ -->
+    <main class="dashboard">
+
+        <!-- LEFT PANEL -->
+        <section class="panel panel--left" id="panel-left">
+            <div class="panel__header">
+                <h1 class="panel__title">Drug Safety Prediction <span class="accent">&</span> Analysis</h1>
+                <p class="panel__subtitle">AI-driven adverse effect prediction from molecular structure</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs" id="filter-tabs">
+                <button class="filter-tab" data-tab="overview">Overview</button>
+                <button class="filter-tab active" data-tab="smiles">SMILES Input</button>
+                <button class="filter-tab" data-tab="sideeffects">Side Effects</button>
+                <button class="filter-tab" data-tab="risk">Risk Analysis</button>
+                <button class="filter-tab" data-tab="reports">Reports</button>
+            </div>
+
+            <!-- SMILES Input Card -->
+            <div class="input-card" id="smiles-card">
+                <label class="input-card__label" for="smiles-input">Enter SMILES String</label>
+                <div class="input-card__field-wrap">
+                    <input type="text" id="smiles-input" class="input-card__field"
+                        placeholder="CC(C)NCC(O)COc1ccc(Cl)cc1" spellcheck="false" autocomplete="off" />
+                    <button class="input-card__paste" id="paste-btn" title="Paste from clipboard">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-card__actions">
+                    <button class="btn btn--primary" id="analyze-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                        Analyze Molecule
+                    </button>
+                    <button class="btn btn--ghost" id="clear-btn">Clear</button>
+                </div>
+            </div>
+
+            <!-- Model Status -->
+            <div class="status-strip" id="status-strip">
+                <div class="status-item">
+                    <span class="status-dot status-dot--green"></span>
+                    <span class="status-label">Model Confidence</span>
+                    <span class="status-value" id="confidence-val">—</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot status-dot--blue"></span>
+                    <span class="status-label">Latency</span>
+                    <span class="status-value" id="latency-val">—</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-dot status-dot--teal"></span>
+                    <span class="status-label">Model</span>
+                    <span class="status-value" id="model-val">GNN + Transformer</span>
+                </div>
+            </div>
+
+            <!-- Charts Section (after analysis) -->
+            <div class="charts-section hidden" id="charts-section">
+                <h2 class="section-heading">Side Effect Probability</h2>
+                <div class="chart-card" id="bar-chart-card">
+                    <div class="bar-chart" id="bar-chart"></div>
+                </div>
+                <h2 class="section-heading" style="margin-top:28px;">Organ-Wise Risk Profile</h2>
+                <div class="chart-card" id="radar-chart-card">
+                    <canvas id="radar-canvas" width="320" height="320"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- CENTER PANEL -->
+        <section class="panel panel--center" id="panel-center">
+            <div class="molecule-view" id="molecule-view">
+                <!-- Placeholder molecule viz -->
+                <!-- Placeholder: Dashboard overview -->
+                <div class="molecule-placeholder" id="mol-placeholder">
+
+                    <!-- Animated molecular network SVG -->
+                    <svg class="mol-network-svg" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Bonds -->
+                        <line class="mol-bond" x1="200" y1="160" x2="280" y2="100" stroke="#D1D5DB" stroke-width="2" />
+                        <line class="mol-bond" x1="200" y1="160" x2="120" y2="100" stroke="#D1D5DB" stroke-width="2" />
+                        <line class="mol-bond" x1="200" y1="160" x2="140" y2="240" stroke="#D1D5DB" stroke-width="2" />
+                        <line class="mol-bond" x1="200" y1="160" x2="270" y2="230" stroke="#D1D5DB" stroke-width="2" />
+                        <line class="mol-bond" x1="280" y1="100" x2="340" y2="60" stroke="#E8ECF0" stroke-width="1.5" />
+                        <line class="mol-bond" x1="280" y1="100" x2="350" y2="140" stroke="#E8ECF0"
+                            stroke-width="1.5" />
+                        <line class="mol-bond" x1="120" y1="100" x2="60" y2="60" stroke="#E8ECF0" stroke-width="1.5" />
+                        <line class="mol-bond" x1="120" y1="100" x2="50" y2="140" stroke="#E8ECF0" stroke-width="1.5" />
+                        <line class="mol-bond" x1="140" y1="240" x2="80" y2="280" stroke="#E8ECF0" stroke-width="1.5" />
+                        <line class="mol-bond" x1="270" y1="230" x2="330" y2="270" stroke="#E8ECF0"
+                            stroke-width="1.5" />
+                        <!-- Central atom -->
+                        <circle class="mol-atom mol-atom--center" cx="200" cy="160" r="18" fill="#0D9488"
+                            opacity="0.9" />
+                        <text x="200" y="165" text-anchor="middle" fill="white" font-size="12" font-weight="700"
+                            font-family="Inter">AI</text>
+                        <!-- Primary atoms -->
+                        <circle class="mol-atom mol-atom--primary" cx="280" cy="100" r="13" fill="#06B6D4"
+                            opacity="0.8" />
+                        <circle class="mol-atom mol-atom--primary" cx="120" cy="100" r="13" fill="#3B82F6"
+                            opacity="0.8" />
+                        <circle class="mol-atom mol-atom--primary" cx="140" cy="240" r="12" fill="#F59E0B"
+                            opacity="0.8" />
+                        <circle class="mol-atom mol-atom--primary" cx="270" cy="230" r="12" fill="#EF4444"
+                            opacity="0.7" />
+                        <!-- Outer atoms -->
+                        <circle class="mol-atom mol-atom--outer" cx="340" cy="60" r="7" fill="#06B6D4" opacity="0.4" />
+                        <circle class="mol-atom mol-atom--outer" cx="350" cy="140" r="6" fill="#06B6D4" opacity="0.3" />
+                        <circle class="mol-atom mol-atom--outer" cx="60" cy="60" r="7" fill="#3B82F6" opacity="0.4" />
+                        <circle class="mol-atom mol-atom--outer" cx="50" cy="140" r="6" fill="#3B82F6" opacity="0.3" />
+                        <circle class="mol-atom mol-atom--outer" cx="80" cy="280" r="6" fill="#F59E0B" opacity="0.3" />
+                        <circle class="mol-atom mol-atom--outer" cx="330" cy="270" r="6" fill="#EF4444" opacity="0.3" />
+                        <!-- Labels on primary atoms -->
+                        <text x="280" y="82" text-anchor="middle" fill="#06B6D4" font-size="9" font-weight="600"
+                            font-family="Inter">Drug</text>
+                        <text x="120" y="82" text-anchor="middle" fill="#3B82F6" font-size="9" font-weight="600"
+                            font-family="Inter">Protein</text>
+                        <text x="140" y="265" text-anchor="middle" fill="#F59E0B" font-size="9" font-weight="600"
+                            font-family="Inter">Pathway</text>
+                        <text x="270" y="255" text-anchor="middle" fill="#EF4444" font-size="9" font-weight="600"
+                            font-family="Inter">ADR</text>
+                    </svg>
+
+                    <!-- Model stats row -->
+                    <div class="center-stats">
+                        <div class="center-stat">
+                            <span class="center-stat__value">75.4%</span>
+                            <span class="center-stat__label">ADR AUC</span>
+                        </div>
+                        <div class="center-stat-divider"></div>
+                        <div class="center-stat">
+                            <span class="center-stat__value">1,500</span>
+                            <span class="center-stat__label">Drugs Trained</span>
+                        </div>
+                        <div class="center-stat-divider"></div>
+                        <div class="center-stat">
+                            <span class="center-stat__value">76</span>
+                            <span class="center-stat__label">Side Effects</span>
+                        </div>
+                        <div class="center-stat-divider"></div>
+                        <div class="center-stat">
+                            <span class="center-stat__value">422</span>
+                            <span class="center-stat__label">Proteins</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick-start SMILES -->
+                    <div class="quick-start">
+                        <span class="quick-start__label">Quick Start:</span>
+                        <button class="quick-start__btn" data-smiles="CC(=O)OC1=CC=CC=C1C(=O)O">Aspirin</button>
+                        <button class="quick-start__btn" data-smiles="CN1C=NC2=C1C(=O)N(C(=O)N2C)C">Caffeine</button>
+                        <button class="quick-start__btn" data-smiles="CC(C)CC1=CC=C(C=C1)C(C)C(=O)O">Ibuprofen</button>
+                        <button class="quick-start__btn" data-smiles="CC(C)NCC(O)COc1cccc2ccccc12">Propranolol</button>
+                    </div>
+                </div>
+
+                <!-- Active molecule display (shown after analysis) -->
+                <div class="molecule-active hidden" id="mol-active">
+                    <div id="mol-3d-container" class="mol-3d-container"></div>
+                </div>
+
+                <!-- Risk overlay -->
+                <div class="risk-overlay hidden" id="risk-overlay">
+                    <div class="risk-overlay__badge">
+                        <span class="risk-overlay__label">Overall ADR Risk</span>
+                        <span class="risk-overlay__value" id="overall-risk">—</span>
+                        <span class="risk-overlay__conf" id="risk-confidence">Prediction Confidence: —</span>
+                    </div>
+                    <div class="risk-overlay__actions">
+                        <button class="overlay-btn" title="Explainability">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                <circle cx="12" cy="17" r=".5" />
+                            </svg>
+                        </button>
+                        <button class="overlay-btn" title="Atom Importance">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <circle cx="12" cy="12" r="8" />
+                                <line x1="12" y1="2" x2="12" y2="4" />
+                                <line x1="12" y1="20" x2="12" y2="22" />
+                                <line x1="2" y1="12" x2="4" y2="12" />
+                                <line x1="20" y1="12" x2="22" y2="12" />
+                            </svg>
+                        </button>
+                        <button class="overlay-btn" title="Structure View">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL -->
+        <section class="panel panel--right" id="panel-right">
+            <h2 class="panel__title panel__title--sm">Predicted Adverse Effects</h2>
+
+            <!-- Loading State -->
+            <div class="loading-state hidden" id="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Analyzing molecular structure…</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"
+                    opacity="0.3">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                </svg>
+                <p>No analysis results yet.<br />Enter a SMILES string and click <strong>Analyze</strong>.</p>
+            </div>
+
+            <!-- Side effect cards container -->
+            <div class="se-cards hidden" id="se-cards"></div>
+        </section>
+
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="dash-footer" id="dash-footer">
+        <div class="dash-footer__left">
+            <span class="dash-footer__timestamp" id="footer-timestamp">—</span>
+        </div>
+        <div class="dash-footer__center">
+            <button class="footer-nav-btn" id="history-prev" disabled>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
+            <span class="dash-footer__history" id="history-label">No history</span>
+            <button class="footer-nav-btn" id="history-next" disabled>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </button>
+        </div>
+        <div class="dash-footer__right">
+            <span class="dash-footer__version">Ensemble V3 + Balanced · AUC 0.754</span>
+        </div>
+    </footer>
+
+    <!-- 3Dmol.js for molecular visualization -->
+    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+    <script src="analysis.js"></script>
+</body>
+
+</html>
